@@ -78,7 +78,7 @@ jobs:
           command: |
               npm i 
               cd ~/project/frontend
-              npm test
+              npm run tests
                 
   test-backend:
     docker:
