@@ -48,7 +48,7 @@ jobs:
             npm run build
             exit 1
       - save_cache:
-          paths: [frontend/node_modules]
+          paths: [~/frontend/node_modules]
           key: frontend-build
 
   build-backend:
