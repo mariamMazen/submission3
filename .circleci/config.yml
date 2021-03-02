@@ -77,7 +77,7 @@ jobs:
           name: Front-end test
           command: |
               npm i 
-              cd frontend
+              cd /home/circleci/project/frontend
               npm test
                 
   test-backend:
