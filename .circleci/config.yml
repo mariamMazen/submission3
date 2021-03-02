@@ -76,7 +76,7 @@ jobs:
       - run:
           name: Front-end test
           command: |
-              npm i 
+              npm i --save
               cd /home/circleci/project/frontend
               npm test
                 
