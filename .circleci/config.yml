@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Front-end scan
           command: |
-              cd ~/project/backend
+              cd ~/project/frontend
               npm audit --audit-level=critical
 
   scan-backend:
@@ -116,6 +116,7 @@ jobs:
           name: Back-end scan
           command: |
               cd ~/project/backend
+              npm audit fix --audit-level=critical --force
               npm audit --audit-level=critical
 
   
