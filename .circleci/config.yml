@@ -44,7 +44,7 @@ jobs:
           name: Build front-end
           command: |
             cd ~/project/frontend
-            npm i
+            npm install --save
             npm run build
       - save_cache:
           paths: [frontend/node_modules]
@@ -61,7 +61,7 @@ jobs:
           name: Back-end build
           command: |
               cd ~/project/backend
-              npm i
+              npm install --save
               npm run build
       - save_cache:
           paths: [backend/node_modules]
@@ -76,8 +76,7 @@ jobs:
       - run:
           name: Front-end test
           command: |
-              npm i --save
-              cd /home/circleci/project/frontend
+              cd ~/project/backend
               npm test
                 
   test-backend:
