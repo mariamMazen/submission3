@@ -76,7 +76,7 @@ jobs:
       - run:
           name: Front-end test
           command: |
-              cd ~/project/backend
+              cd ~/project/frontend
               npm test
                 
   test-backend:
