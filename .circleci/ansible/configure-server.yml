@@ -18,4 +18,4 @@
       when: check_python.rc != 0
 
   roles:
-    -configure-server
+    - configure-server
