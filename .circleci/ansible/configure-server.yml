@@ -1,6 +1,5 @@
 ---
-- name: "configuration play." 
-  hosts: web
+- hosts: web
   user: ubuntu
   gather_facts: false
   vars:
