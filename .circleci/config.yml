@@ -152,7 +152,7 @@ jobs:
             echo -e "[web]\n" > project/.circleci/ansible/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> project/.circleci/ansible/inventory.txt
+              --output text >> inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
