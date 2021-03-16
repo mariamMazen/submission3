@@ -20,7 +20,7 @@
   roles:
     - configure-server
 
-- name: Configure environment variables
+- name: "Configure environment variables"
   environment:
     ENVIRONMENT: 'production'
     TYPEORM_CONNECTION: 'postgres'
