@@ -42,14 +42,3 @@
 - name: Executing node
   shell: |
     pm2 start ~/web/index.js -f
-
-- name: Configure environment variables
-  environment:
-    ENVIRONMENT: 'production'
-    TYPEORM_CONNECTION: 'postgres'
-    TYPEORM_ENTITIES: './src/modules/domain/**/*.entity.ts'
-    TYPEORM_HOST: $TYPEORM_HOST
-    TYPEORM_PORT: $TYPEORM_PORT
-    TYPEORM_USERNAME: $TYPEORM_USERNAME
-    TYPEORM_PASSWORD: $TYPEORM_PASSWORD
-    TYPEORM_DATABASE: $TYPEORM_DATABASE
