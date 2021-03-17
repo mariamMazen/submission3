@@ -187,7 +187,6 @@ jobs:
           name: Run migrations
           command: |
             cd ~/project/backend
-            npm premigrations
             MIGRATIONS=$(npm migrations)
       - run:
           name: Send migration results to memstash
@@ -209,7 +208,7 @@ workflows:
       #    requires: [build-backend]
       # - scan-frontend:
       #    requires: [build-frontend]
-      - deploy-infrastructure
+      - deploy-infrastructure:
           requires: [build-backend]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
