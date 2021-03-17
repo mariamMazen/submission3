@@ -187,7 +187,6 @@ jobs:
           name: Run migrations
           command: |
             cd ~/project/backend
-            npm premigrations
             npm run migrations >> ~/project/backend/migrations.txt
             cat migrations.txt
       # - run:
