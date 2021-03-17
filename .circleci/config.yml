@@ -194,9 +194,6 @@ jobs:
             if grep -q "has been executed successfully" migrations.txt; then
               curl -H "Content-Type: text/plain" -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
             fi
-      - run:
-          name: Send migration results to memstash
-          command: |
             
 
   
