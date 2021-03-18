@@ -218,7 +218,7 @@ jobs:
           name: Deploy frontend objects
           command: |
             cd ~/project/frontend
-            aws s3 cp dist https://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3.us-west-2.amazonaws.com
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-backend:
     docker:
