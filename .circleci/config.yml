@@ -209,6 +209,7 @@ jobs:
           name: Get backend url
           command: |
             BACKEND_IP=$(aws ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
+            curl -H "Content-Type: text/plain" -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request PUT --data "${BACKEND_IP}" https://api.memstash.io/values/BACKEND_IP
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             cd ~/project/frontend
@@ -251,7 +252,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            BACKEND_IP=$(aws ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
+            BACKEND_IP=$(curl -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request GET https://api.memstash.io/values/BACKEND_IP)
             
       - run:
           name: Backend smoke test.
