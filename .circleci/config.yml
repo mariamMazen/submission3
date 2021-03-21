@@ -247,7 +247,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt-get install curl
+            apt update
+            apt upgrade
+            apt install curl
       - run:
           name: Get backend url
           command: |
@@ -267,9 +269,9 @@ jobs:
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-west-2.amazonaws.com"
             if curl -s ${URL} | grep "Welcome"
             then
-            return 1
+              return 1
             else
-            return 0
+              return 0
             fi
 
   
