@@ -10,8 +10,9 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            # Your code here
-            exit 1
+            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            aws cloudformation delete-stack --stack-name "udapeople-backend-stack"
+            aws cloudformation delete-stack --stack-name "udapeople-frontend-stack"
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -22,14 +23,12 @@ commands:
           name: Revert migrations
           # Add when this will run
           command: |
-            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
+            SUCCESS = $(curl -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
             if(( $SUCCESS==1 )); 
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
+              cd ~/project/backend
+              npm install
+              npm run migrations:revert
             fi
             
 jobs:
@@ -273,6 +272,8 @@ jobs:
             else
               return 1
             fi
+      - destroy_environment
+        when: on_fail
 
   
 
