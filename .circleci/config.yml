@@ -10,6 +10,9 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
             aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             aws cloudformation delete-stack --stack-name "udapeople-backend-stack"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-stack"
@@ -21,7 +24,7 @@ commands:
     steps:
       - run:
           name: Revert migrations
-          # Add when this will run
+          when: on_fail
           command: |
             SUCCESS = $(curl -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
             if(( $SUCCESS==1 )); 
@@ -273,6 +276,7 @@ jobs:
               return 1
             fi
       - destroy-environment
+      - revert-migrations
 
   
 
