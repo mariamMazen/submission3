@@ -10,9 +10,10 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            apk --no-cache add sudo
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
-            ./aws/install
+            sudo ./aws/install
             aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             aws cloudformation delete-stack --stack-name "udapeople-backend-stack"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-stack"
