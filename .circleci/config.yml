@@ -138,21 +138,21 @@ jobs:
               --tags project=udapeople-backend \
                --stack-name "udapeople-backend-stack" \
                --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
-      - run:
-          name: Ensure front-end infrastructure exist
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=your-tag \
-               --stack-name "udapeople-frontend-stack" \
-               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
-      - run:
-          name: Add back-end ip to ansible inventory
-          command: |
-            echo -e "[web]\n" > .circleci/ansible/inventory
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> inventory 
+      # - run:
+      #     name: Ensure front-end infrastructure exist
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file .circleci/files/frontend.yml \
+      #         --tags project=your-tag \
+      #          --stack-name "udapeople-frontend-stack" \
+      #          --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
+      # - run:
+      #     name: Add back-end ip to ansible inventory
+      #     command: |
+      #       echo -e "[web]\n" > .circleci/ansible/inventory
+      #       aws ec2 describe-instances \
+      #         --query 'Reservations[*].Instances[*].PublicIpAddress' \
+      #         --output text >> inventory 
       - persist_to_workspace:
           root: ~/
           paths:
@@ -271,11 +271,11 @@ jobs:
           name: Frontend smoke test.
           command: |
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-west-2.amazonaws.com"
-            if curl -s ${URL} | grep "Welcome"
+            if curl -s ${URL} | grep "Welcome";
             then
-              return 1
+              exit 1
             else
-              return 1
+              exit 1
             fi
       - destroy-environment
       - revert-migrations
