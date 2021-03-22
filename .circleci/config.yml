@@ -138,21 +138,21 @@ jobs:
               --tags project=udapeople-backend \
                --stack-name "udapeople-backend-stack" \
                --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
-      # - run:
-      #     name: Ensure front-end infrastructure exist
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file .circleci/files/frontend.yml \
-      #         --tags project=your-tag \
-      #          --stack-name "udapeople-frontend-stack" \
-      #          --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
-      # - run:
-      #     name: Add back-end ip to ansible inventory
-      #     command: |
-      #       echo -e "[web]\n" > .circleci/ansible/inventory
-      #       aws ec2 describe-instances \
-      #         --query 'Reservations[*].Instances[*].PublicIpAddress' \
-      #         --output text >> inventory 
+      - run:
+          name: Ensure front-end infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              --tags project=your-tag \
+               --stack-name "udapeople-frontend-stack" \
+               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+            echo -e "[web]\n" > .circleci/ansible/inventory
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> inventory 
       - persist_to_workspace:
           root: ~/
           paths:
@@ -273,7 +273,7 @@ jobs:
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-west-2.amazonaws.com"
             if curl -s ${URL} | grep "Welcome";
             then
-              exit 1
+              exit 0
             else
               exit 1
             fi
@@ -285,14 +285,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
           name: Update cloudfront distribution
           command: |
-            # your code here
-      # Here's where you will add some code to rollback on failure 
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
+              --tags project=udapeople \
+               --stack-name "udapeople-cloudfront" \
+               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" 
+            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            aws cloudformation delete-stack --stack-name "udapeople-backend-stack"
+            aws cloudformation delete-stack --stack-name "udapeople-frontend-stack"
+      - destroy-environment
+      - revert-migrations
 
   
 
@@ -320,3 +324,5 @@ workflows:
           requires: [run-migrations]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
+      - cloudfront-update:
+          requires: [smoke-test]
