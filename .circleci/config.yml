@@ -277,7 +277,7 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
- cloudfront-update:
+  cloudfront-update:
     docker:
       - image: amazon/aws-cli
     steps:
