@@ -19,8 +19,6 @@ commands:
     parameters:
       # Add parameter here     
     steps:
-      - attach_workspace:
-          at: ~/project/backend
       - run:
           name: Revert migrations
           when: on_fail
