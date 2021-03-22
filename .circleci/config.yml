@@ -270,8 +270,8 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3.us-west-2.amazonaws.com"
-            if curl -s ${URL} | grep "Welcome";
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-us-west-2.amazonaws.com"
+            if curl -s ${URL} | grep "Access Denied";
             then
               exit 0
             else
