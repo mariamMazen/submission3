@@ -10,7 +10,6 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            apk --no-cache add sudo
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
@@ -27,8 +26,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS=$(curl -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
-            if(( "${SUCCESS}" == "1" )); 
+            if grep -q "has been executed successfully" ~/project/backend/migrations.txt;
             then
               cd ~/project/backend
               npm install
@@ -252,6 +250,7 @@ jobs:
           name: Install dependencies
           command: |
             apk --no-cache add curl
+            apk --no-cache add sudo
       - run:
           name: Get backend url
           command: |
@@ -278,6 +277,20 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
+ cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure 
 
   
 
