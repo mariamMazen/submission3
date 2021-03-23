@@ -311,7 +311,6 @@ jobs:
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]];
             then
               aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-              aws cloudformation delete-stack --stack-name "udapeople-backend-stack"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-stack"
             fi
 
@@ -335,46 +334,46 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
       - configure-infrastructure:
           requires: [deploy-infrastructure]
           filters:
             branches:
               only:
-                - master
+                - main
       - run-migrations:
           requires: [configure-infrastructure]
           filters:
             branches:
               only:
-                - master
+                - main
       - deploy-frontend:
           requires: [run-migrations]
           filters:
             branches:
               only:
-                - master
+                - main
       - deploy-backend:
           requires: [run-migrations]
           filters:
             branches:
               only:
-                - master
+                - main
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
           filters:
             branches:
               only:
-                - master
+                - main
       - cloudfront-update:
           requires: [smoke-test]
           filters:
             branches:
               only:
-                - master
+                - main
       - cleanup:
           requires: [cloudfront-update]
           filters:
             branches:
               only:
-                - master
+                - main
