@@ -1,5 +1,5 @@
 ---
-- name: Copy index test page
+- name: Copy backend files
   template:
-    src: "~/project/frontend/dist"
-    dest: "~/web/"
+    src: "~/project/backend/"
+    dest: "~/home/ubuntu/backend"
