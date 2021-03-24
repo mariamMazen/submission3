@@ -146,7 +146,7 @@ jobs:
             echo -e "[web]\n" > .circleci/ansible/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> inventory.txt 
+              --output text >> .circleci/ansible/inventory.txt
             echo -e "\n" > .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
@@ -163,7 +163,7 @@ jobs:
           fingerprints:
             - "6c:2c:6a:ec:9a:da:75:e9:3b:3d:4e:b7:aa:2c:f6:77"
       - attach_workspace:
-          at: ~/.circleci/ansible
+          at: .circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -171,7 +171,6 @@ jobs:
       - run:
           name: Configure server
           command: |
-            cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
 
   run-migrations:
