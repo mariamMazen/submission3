@@ -150,7 +150,7 @@ jobs:
             echo -e "\n" > .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: ~/
+          root: .
           paths:
             - .circleci/ansible/inventory.txt
 
@@ -230,7 +230,7 @@ jobs:
           fingerprints:
             - "6c:2c:6a:ec:9a:da:75:e9:3b:3d:4e:b7:aa:2c:f6:77"
       - attach_workspace:
-          at: ~/project/.circleci/ansible
+          at: ./.circleci/ansible
       - run:
           name: Install dependencies
           command: |
