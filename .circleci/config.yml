@@ -143,10 +143,10 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo -e "[web]\n" > .circleci/ansible/inventory
+            echo -e "[web]\n" > .circleci/ansible/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> inventory 
+              --output text >> inventory.txt 
       - persist_to_workspace:
           root: ~/
           paths:
@@ -170,7 +170,7 @@ jobs:
           name: Configure server
           command: |
             cd ~/project/.circleci/ansible
-            ansible-playbook -i inventory configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml
 
   run-migrations:
     docker:
@@ -237,7 +237,7 @@ jobs:
           name: Deploy backend
           command: |
             cd ~/project/.circleci/ansible
-            ansible-playbook -i inventory deploy-backend.yml
+            ansible-playbook -i inventory.txt deploy-backend.yml
   smoke-test:
     docker:
       - image: amazon/aws-cli
