@@ -233,6 +233,8 @@ jobs:
             - "6c:2c:6a:ec:9a:da:75:e9:3b:3d:4e:b7:aa:2c:f6:77"
       - attach_workspace:
           at: ./.circleci/ansible
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Install dependencies
           command: |
