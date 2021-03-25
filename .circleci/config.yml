@@ -143,14 +143,14 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo -e "[web]\n" > .circleci/ansible/inventory.txt
+            echo -e "[web]\n" > ~/project/.circleci/ansible/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> .circleci/ansible/inventory.txt
-            echo -e "\n" > .circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt
+              --output text >> ~/project/.circleci/ansible/inventory.txt
+            echo -e "\n" > ~/project/.circleci/ansible/inventory.txt
+            cat ~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: .circleci/ansible/  
+          root: ~/project/.circleci/ansible/  
           paths:
             - inventory.txt
 
@@ -163,7 +163,7 @@ jobs:
           fingerprints:
             - "6c:2c:6a:ec:9a:da:75:e9:3b:3d:4e:b7:aa:2c:f6:77"
       - attach_workspace:
-          at: .circleci/ansible/
+          at: ~/project/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
