@@ -124,33 +124,33 @@ jobs:
           name: install tar
           command: |
             yum -y install tar gzip
-      - run:
-          name: Ensure back-end infrastructure exists
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
-              --tags project=udapeople-backend \
-               --stack-name "udapeople-backend-stack" \
-               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
-      - run:
-          name: Ensure front-end infrastructure exist
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=your-tag \
-               --stack-name "udapeople-frontend-stack" \
-               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
+      # - run:
+      #     name: Ensure back-end infrastructure exists
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file .circleci/files/backend.yml \
+      #         --tags project=udapeople-backend \
+      #          --stack-name "udapeople-backend-stack" \
+      #          --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
+      # - run:
+      #     name: Ensure front-end infrastructure exist
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file .circleci/files/frontend.yml \
+      #         --tags project=your-tag \
+      #          --stack-name "udapeople-frontend-stack" \
+      #          --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo -e "[web]\n" > ~/project/.circleci/ansible/inventory.txt
+            echo -e "[web]\n" > .circleci/ansible/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text >> ~/project/.circleci/ansible/inventory.txt
-            echo -e "\n" > ~/project/.circleci/ansible/inventory.txt
-            cat ~/project/.circleci/ansible/inventory.txt
+            echo -e "\n" > .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: ~/project/.circleci/ansible/  
+          root: ~/.circleci/ansible/  
           paths:
             - inventory.txt
 
@@ -163,7 +163,7 @@ jobs:
           fingerprints:
             - "6c:2c:6a:ec:9a:da:75:e9:3b:3d:4e:b7:aa:2c:f6:77"
       - attach_workspace:
-          at: ~/project/.circleci/ansible/
+          at: ~/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
@@ -317,10 +317,10 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
       - scan-backend:
           requires: [build-backend]
       - scan-frontend:
