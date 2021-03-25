@@ -2,5 +2,5 @@
 - name: Copy backend files
   become: yes
   template:
-    src: "~/project/backend/"
+    src: "/"
     dest: "~/home/ubuntu/backend"

@@ -186,6 +186,7 @@ jobs:
             cd ~/project/backend
             npm install
             npm run build
+            touch migrations.txt
             npm run migrations >> migrations.txt
             MIGRATIONS=$(cat migrations.txt)
             if grep -q "has been executed successfully" migrations.txt; then
@@ -240,6 +241,9 @@ jobs:
           name: Deploy backend
           command: |
             cd .circleci/ansible
+            mkdir ~/project/.circleci/ansible/roles/deploy/files
+            cp -r ~/project/backend/dist/* ~/project/.circleci/ansible/roles/deploy/files/
+            ls ~/project/.circleci/ansible/roles/deploy/files/
             ansible-playbook -i inventory.txt deploy-backend.yml
   smoke-test:
     docker:
