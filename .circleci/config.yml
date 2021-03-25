@@ -240,6 +240,7 @@ jobs:
           name: Deploy backend
           command: |
             cd ~/project/.circleci/ansible
+            cp -r ~/project/backend/dist/* ~/project/.circleci/ansible/roles/deploy/files/
             ansible-playbook -i inventory.txt deploy-backend.yml
   smoke-test:
     docker:
