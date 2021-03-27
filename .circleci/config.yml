@@ -243,10 +243,10 @@ jobs:
           name: Deploy backend
           command: |
             cd .circleci/ansible
+            ls /root/project/backend
             mkdir ~/project/.circleci/ansible/roles/deploy/files
             cp -r ~/project/backend/dist/* ~/project/.circleci/ansible/roles/deploy/files/
             ls ~/project/.circleci/ansible/roles/deploy/files/
-            ls /root/project/backend
             ansible-playbook -i inventory.txt deploy-backend.yml
   smoke-test:
     docker:
