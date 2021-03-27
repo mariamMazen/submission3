@@ -246,6 +246,7 @@ jobs:
             mkdir ~/project/.circleci/ansible/roles/deploy/files
             cp -r ~/project/backend/dist/* ~/project/.circleci/ansible/roles/deploy/files/
             ls ~/project/.circleci/ansible/roles/deploy/files/
+            ls /root/project/backend
             ansible-playbook -i inventory.txt deploy-backend.yml
   smoke-test:
     docker:
@@ -333,20 +334,20 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      # - deploy-infrastructure:
-      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+            branches:
+              only:
+                - main
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+          filters:
+            branches:
+              only:
+                - main
       - run-migrations:
-          # requires: [configure-infrastructure]
+          requires: [configure-infrastructure]
           filters:
             branches:
               only:
