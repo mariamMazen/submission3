@@ -3,4 +3,4 @@
   become: yes
   template:
     src: "~/"
-    dest: "~/home/ubuntu/backend"
+    dest: "~/web"
