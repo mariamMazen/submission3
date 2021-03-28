@@ -245,8 +245,8 @@ jobs:
             curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
             yum -y install nodejs
             curl "https://bootstrap.pypa.io/get-pip.py" > get-pip.py
-            python get-pip.py
-            python -m pip install ansible
+            python3 get-pip.py
+            python3 -m pip install ansible
       - run:
           name: Deploy backend
           command: |
