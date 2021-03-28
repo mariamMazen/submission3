@@ -62,6 +62,11 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      - persist_to_workspace:
+          root: ~/project/.circleci/ansible/  
+          paths:
+            - roles/deploy/files
+            
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -230,10 +235,6 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - run:
-          name: install tar
-          command: |
-            yum -y install tar gzip
       - add_ssh_keys:
           fingerprints:
             - "6c:2c:6a:ec:9a:da:75:e9:3b:3d:4e:b7:aa:2c:f6:77"
