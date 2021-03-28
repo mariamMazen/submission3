@@ -225,7 +225,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
@@ -239,6 +239,8 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
+            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
+            yum -y install nodejs
       - run:
           name: Deploy backend
           command: |
