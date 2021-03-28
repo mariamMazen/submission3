@@ -225,7 +225,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -242,11 +242,13 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            cd .circleci/ansible
+            cd ~project/backend
+            npm run build
             ls /root/project/backend
             mkdir ~/project/.circleci/ansible/roles/deploy/files
             cp -r ~/project/backend/dist/* ~/project/.circleci/ansible/roles/deploy/files/
             ls ~/project/.circleci/ansible/roles/deploy/files/
+            cd ~/project/.circleci/ansible
             ansible-playbook -i inventory.txt deploy-backend.yml
   smoke-test:
     docker:
