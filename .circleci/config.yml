@@ -57,6 +57,8 @@ jobs:
               cd ~/project/backend
               npm install --save
               npm run build
+              mkdir ~/project/.circleci/ansible/roles/deploy/files
+              cp -r dist/* ~/project/.circleci/ansible/roles/deploy/files/
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -225,7 +227,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
@@ -242,20 +244,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            yum -y install nodejs
-            curl "https://bootstrap.pypa.io/get-pip.py" > get-pip.py
-            python3 get-pip.py
-            python3 -m pip install ansible
+            apk add --update ansible
       - run:
           name: Deploy backend
           command: |
-            cd ~project/backend
-            npm install
-            npm run build
-            ls /root/project/backend
-            mkdir ~/project/.circleci/ansible/roles/deploy/files
-            cp -r ~/project/backend/dist/* ~/project/.circleci/ansible/roles/deploy/files/
             ls ~/project/.circleci/ansible/roles/deploy/files/
             cd ~/project/.circleci/ansible
             ansible-playbook -i inventory.txt deploy-backend.yml
