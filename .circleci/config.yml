@@ -244,9 +244,8 @@ jobs:
           command: |
             curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
             yum -y install nodejs
-            yum install epel-release
-            yum repolist
-            yum install ansible
+            sudo python get-pip.py
+            sudo python -m pip install ansible
       - run:
           name: Deploy backend
           command: |
