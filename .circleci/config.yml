@@ -239,6 +239,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
+            apk update && apk add curl curl-dev bash
             curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
             yum -y install nodejs
       - run:
