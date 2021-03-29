@@ -3,4 +3,5 @@
   become: yes
   template:
     src: "~/"
-    dest: "~/web"
+    dest: "/home/ubuntu/backend/"
+    remote_src: yes
