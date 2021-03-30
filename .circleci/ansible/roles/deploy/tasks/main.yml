@@ -1,6 +1,14 @@
 ---
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend/
+    state: directory
+
 - name: Copy backend files
-  become: yes
   copy:
     src: "~/"
     dest: "/home/ubuntu/backend/"
+
+- name: Executing node
+  shell: |
+    pm2 start npm -- run start
