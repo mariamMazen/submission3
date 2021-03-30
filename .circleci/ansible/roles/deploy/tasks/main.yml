@@ -6,9 +6,8 @@
 
 - name: Copy backend files
   copy:
-    src: "~/"
-    dest: "/home/ubuntu/backend/"
-    remote_src: no
+    src: dist.zip
+    dest: /home/ubuntu/backend/
 
 - name: 
   ansible.builtin.unarchive:
