@@ -255,6 +255,7 @@ jobs:
             ls ~/project/.circleci/ansible
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml
+          no_output_timeout: 30m
   smoke-test:
     docker:
       - image: amazon/aws-cli
