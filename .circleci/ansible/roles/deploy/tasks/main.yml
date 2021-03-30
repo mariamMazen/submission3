@@ -8,6 +8,7 @@
   copy:
     src: "~/"
     dest: "/home/ubuntu/backend/"
+    remote_src: no
 
 - name: Executing node
   shell: |
