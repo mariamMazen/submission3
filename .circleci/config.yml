@@ -58,7 +58,8 @@ jobs:
               npm install --save
               npm run build
               mkdir ~/project/.circleci/ansible/roles/deploy/files
-              cp -r dist/* ~/project/.circleci/ansible/roles/deploy/files/
+              zip -r dist.zip dist
+              cp -r dist.zip ~/project/.circleci/ansible/roles/deploy/files/
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -246,7 +247,6 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            apk add openssh-client
       - run:
           name: Deploy backend
           command: |
