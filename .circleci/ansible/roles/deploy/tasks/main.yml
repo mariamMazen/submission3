@@ -1,7 +1,6 @@
 ---
 - name: Copy backend files
   become: yes
-  template:
+  copy:
     src: "~/"
     dest: "/home/ubuntu/backend/"
-    remote_src: yes

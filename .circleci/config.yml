@@ -250,8 +250,8 @@ jobs:
           name: Deploy backend
           command: |
             ls ~/project/.circleci/ansible/roles/deploy/files/
-            cd ~/project/.circleci/ansible
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            ls ~/project/.circleci/ansible
+            ansible-playbook -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml
   smoke-test:
     docker:
       - image: amazon/aws-cli
