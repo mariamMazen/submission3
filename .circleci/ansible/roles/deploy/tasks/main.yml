@@ -10,6 +10,12 @@
     dest: "/home/ubuntu/backend/"
     remote_src: no
 
+- name: 
+  ansible.builtin.unarchive:
+    src: /home/ubuntu/backend/dist.zip
+    dest: /home/ubuntu/backend/
+    remote_src: yes
+
 - name: Executing node
   shell: |
     pm2 start npm -- run start
