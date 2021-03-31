@@ -6,5 +6,5 @@
 
 - name: Copy backend files
   copy:
-    src: dist.zip
+    src: backend.zip
     dest: /home/ubuntu/backend/
