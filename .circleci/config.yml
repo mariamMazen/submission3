@@ -58,7 +58,7 @@ jobs:
               npm install --save
               npm run build
               mkdir ~/project/.circleci/ansible/roles/deploy/files
-              zip -r backend.zip ~project/backend
+              zip -r backend.zip ~/project/backend/
               cp -r backend.zip ~/project/.circleci/ansible/roles/deploy/files/
       - save_cache:
           paths: [backend/node_modules]
