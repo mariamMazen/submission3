@@ -57,9 +57,6 @@ jobs:
               cd ~/project/backend
               npm install --save
               npm run build
-              mkdir ~/project/.circleci/ansible/roles/deploy/files
-              zip -r backend.zip ~/project/backend/
-              cp -r backend.zip ~/project/.circleci/ansible/roles/deploy/files/
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -200,6 +197,18 @@ jobs:
             if grep -q "has been executed successfully" migrations.txt; then
               curl -H "Content-Type: text/plain" -H "token: 3e6d53ae-eeb4-4811-8950-0202595869fd" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
             fi
+            touch .env
+            echo ENVIRONMENT=production >> .env
+            echo TYPEORM_CONNECTION=postgres >> .env
+            echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> .env
+            echo TYPEORM_HOST=$TYPEORM_HOST >> .env
+            echo TYPEORM_PORT=$TYPEORM_PORT >> .env
+            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> .env
+            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
+            mkdir ~/project/.circleci/ansible/roles/deploy/files
+            zip -r backend.zip ~/project/backend/
+            cp -r backend.zip ~/project/.circleci/ansible/roles/deploy/files/
       - persist_to_workspace:
           root: ~/project/backend/
           paths:
