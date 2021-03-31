@@ -60,10 +60,6 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      - persist_to_workspace:
-          root: ~/project/.circleci/ansible/  
-          paths:
-            - roles/deploy/files
             
   test-frontend:
     docker:
@@ -213,6 +209,10 @@ jobs:
           root: ~/project/backend/
           paths:
             - migrations.txt
+      - persist_to_workspace:
+          root: ~/project/.circleci/ansible/  
+          paths:
+            - roles/deploy/files
 
   deploy-frontend:
     docker:
