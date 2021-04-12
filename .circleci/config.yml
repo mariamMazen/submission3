@@ -204,7 +204,8 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
             mkdir ~/project/.circleci/ansible/roles/deploy/files
-            zip -r backend.zip ~/project/backend/dist
+            cp -r .env ~/project/backend/dist/
+            zip -r backend.zip ~/project/backend/dist/
             cp -r backend.zip ~/project/.circleci/ansible/roles/deploy/files/
       - persist_to_workspace:
           root: ~/project/backend/
